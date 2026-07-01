@@ -1,8 +1,21 @@
 {
 	"common": {
 		"name": "plenticore",
-		"version": "2.3.1",
+		"version": "2.4.0",
 		"news": {
+			"2.4.0": {
+				"en": "Added powermeter (KSEM) channel, grid values, battery health, extra statistics and system/update/event channels; added inverter state text",
+				"de": "Powermeter-Kanal (KSEM), Netzwerte, Batterie-Gesundheit, zusätzliche Statistiken und system/update/event-Kanäle ergänzt; Klartext für Wechselrichter-Status hinzugefügt",
+				"ru": "Добавлен канал счётчика (KSEM), сетевые значения, состояние батареи, доп. статистика и каналы system/update/event; текст состояния инвертора",
+				"pt": "Adicionado canal do medidor (KSEM), valores da rede, saúde da bateria, estatísticas extra e canais system/update/event; texto de estado do inversor",
+				"nl": "Powermeter-kanaal (KSEM), netwaarden, batterijgezondheid, extra statistieken en system/update/event-kanalen toegevoegd; tekst voor omvormerstatus",
+				"fr": "Ajout du canal compteur (KSEM), valeurs réseau, santé batterie, statistiques supplémentaires et canaux system/update/event ; texte d'état de l'onduleur",
+				"it": "Aggiunto canale contatore (KSEM), valori di rete, salute batteria, statistiche extra e canali system/update/event; testo stato inverter",
+				"es": "Añadido canal del medidor (KSEM), valores de red, salud de la batería, estadísticas extra y canales system/update/event; texto de estado del inversor",
+				"pl": "Dodano kanał licznika (KSEM), wartości sieci, kondycję baterii, dodatkowe statystyki oraz kanały system/update/event; tekst stanu falownika",
+				"uk": "Додано канал лічильника (KSEM), значення мережі, стан батареї, додаткову статистику та канали system/update/event; текст стану інвертора",
+				"zh-cn": "新增电表(KSEM)通道、电网数值、电池健康、额外统计以及 system/update/event 通道；新增逆变器状态文本"
+			},
 			"2.3.1": {
 				"en": "Added further option to control battery management [PastCoder]",
 				"de": "Weitere Option zur Steuerung des Batteriemanagements [PastCoder]",

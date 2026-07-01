@@ -5,3 +5,4 @@ node_modules
 .gitignore
 .npmignore
 *.bak
+kostal-dump.json

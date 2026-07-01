@@ -125,6 +125,80 @@ The datapoints in this section contain the statistics that are visible in the Pl
 `plenticore.0.scb.statistic.EnergyFlow.OwnConsumptionRateDay` - the own consumption rate (generated plant power NOT sent to the grid) for the current day  
 `plenticore.0.scb.statistic.EnergyFlow.YieldDay` - the total yield of the plant for the current day
 
+## Extended objects (added in 2.4.0)
+
+Starting with version 2.4.0 the adapter additionally reads a number of data points that already existed in the inverter's REST API but were not mapped before. As with the statistics above, all `Day` energy values are also available as `Month`, `Year` and `Total`.
+
+#### plenticore.X.devices.local (extended)
+
+`plenticore.X.devices.local.Grid_P` - grid power at the grid connection point (positive = import from grid, negative = export to grid)  
+`plenticore.X.devices.local.Grid_Q` / `Grid_S` - grid reactive / apparent power  
+`plenticore.X.devices.local.Grid_L1_P` / `Grid_L2_P` / `Grid_L3_P` - grid power per phase  
+`plenticore.X.devices.local.Grid_L1_I` / `Grid_L2_I` / `Grid_L3_I` - grid current per phase  
+`plenticore.X.devices.local.Bat2Grid_P` - power flowing from the battery to the grid  
+`plenticore.X.devices.local.Grid2Bat_P` - power flowing from the grid to the battery  
+`plenticore.X.devices.local.PV2Bat_P` - power flowing from the PV plant to the battery  
+`plenticore.X.devices.local.LimitEvuRel` - current feed-in power limit in percent  
+`plenticore.X.devices.local.Iso_R` - insulation resistance in Ohm  
+`plenticore.X.devices.local.WorkTime` - total inverter operating time in seconds  
+`plenticore.X.devices.local.DigitalOut` - state of the digital output(s)
+
+#### plenticore.X.devices.local.ac (extended)
+
+`plenticore.X.devices.local.ac.InvIn_P` - inverter input power  
+`plenticore.X.devices.local.ac.InvOut_P` - inverter output power  
+`plenticore.X.devices.local.ac.ResidualCDc_I` - residual DC current
+
+#### plenticore.X.devices.local.battery (extended)
+
+`plenticore.X.devices.local.battery.SoH` - battery state of health in percent  
+`plenticore.X.devices.local.battery.FullChargeCap_E` - full charge capacity of the battery  
+`plenticore.X.devices.local.battery.WorkCapacity` - usable work capacity in Wh  
+`plenticore.X.devices.local.battery.BatManufacturer` / `BatModel` / `BatSerialNo` / `BatVersionFW` - battery manufacturer, model, serial number and firmware (numeric codes)
+
+#### plenticore.X.devices.local.powermeter
+
+This channel contains the values of the connected energy meter (e. g. KOSTAL Smart Energy Meter / KSEM) at the grid connection point.  
+`plenticore.X.devices.local.powermeter.P` - total power (positive = import from grid, negative = export to grid)  
+`plenticore.X.devices.local.powermeter.Q` / `S` - reactive / apparent power  
+`plenticore.X.devices.local.powermeter.Imp_E` - imported active energy (from grid) in Wh  
+`plenticore.X.devices.local.powermeter.Exp_E` - exported active energy (to grid) in Wh  
+`plenticore.X.devices.local.powermeter.Imp_EQ` / `Imp_ES` / `Exp_EQ` / `Exp_ES` - imported / exported reactive and apparent energy  
+`plenticore.X.devices.local.powermeter.L1_P` / `L2_P` / `L3_P` - power per phase  
+`plenticore.X.devices.local.powermeter.L1_I` / `L1_U` / `L1_Q` / `L1_S` (and L2 / L3) - current, voltage, reactive and apparent power per phase  
+`plenticore.X.devices.local.powermeter.CosPhi` / `Frequency` - power factor and grid frequency
+
+#### plenticore.X.devices.local.inverter (extended)
+
+`plenticore.X.devices.local.inverter.State` - numeric inverter operating state  
+`plenticore.X.devices.local.inverter.StateText` - human readable inverter operating state (e. g. `FeedIn`, `Standby`, `Off`). Note: the numeric-to-text mapping is best-effort based on community documentation.
+
+#### plenticore.X.scb.system
+
+`plenticore.X.scb.system.State` - overall system state (numeric)  
+`plenticore.X.scb.system.Props.*` - static system properties (battery, PV, hardware version, inverter generation, shadow management)
+
+#### plenticore.X.scb.update
+
+`plenticore.X.scb.update.Status` - firmware update status (numeric)  
+`plenticore.X.scb.update.Progress` - update progress in percent  
+`plenticore.X.scb.update.Version` - update version  
+`plenticore.X.scb.update.StatusTime` - timestamp of the last status change
+
+#### plenticore.X.scb.event
+
+`plenticore.X.scb.event.ActiveErrorCnt` - number of currently active errors  
+`plenticore.X.scb.event.ActiveWarningCnt` - number of currently active warnings  
+`plenticore.X.scb.event.ActiveAckCnt` / `ActiveAckCode` - active acknowledge count / code  
+`plenticore.X.scb.event.ErrMc` / `ErrSFH` - internal error indicators
+
+#### plenticore.X.scb.statistic.EnergyFlow (extended)
+
+`plenticore.X.scb.statistic.EnergyFlow.EnergyDischargeDay` - total battery discharge for the current day  
+`plenticore.X.scb.statistic.EnergyFlow.EnergyChargeInvInDay` - battery charge from the inverter input for the current day  
+`plenticore.X.scb.statistic.EnergyFlow.EnergyPv1Day` / `EnergyPv2Day` / `EnergyPv3Day` - energy yield per PV string for the current day  
+`plenticore.X.scb.statistic.EnergyFlow.EnergyHomeOwnTotal` - total home consumption covered by own production
+
 ## Forecast data
 
 To power forecast feature uses different weather data sources. It works out-of-the-box but you can improve the results by adding instances of one or more of the following weather adapters: ioBroker.darksky, ioBroker.weatherunderground, ioBroker.daswetter. For the feature to work you need to have the system's global geo position (longitude and latitude) configured and set the extended config of the plenticore adapter (panel and battery data if applicable).
@@ -194,6 +268,16 @@ Details:
 - A hysteresis is used to switch on/off less often. It will turn off when the current SoC is less than the "Minimum SoC to activate battery management" or when the free power is below 0. It will turn on when the current SoC is greater than "Minimum SoC to activate battery management"+1 and the free power is greater than 10% of the battery capacity.
 
 ## Changelog
+
+### 2.4.0
+- Added the `devices.local.powermeter` channel (values of the connected energy meter / KSEM: grid import/export energy, per-phase P/Q/S/U/I, CosPhi, frequency)
+- Added additional `devices.local` values: `Grid_P/Q/S`, per-phase grid power/current, `Bat2Grid_P`, `Grid2Bat_P`, `PV2Bat_P`, `Iso_R`, `LimitEvuRel`, `WorkTime`, `DigitalOut`
+- Added battery health values: `SoH`, `FullChargeCap_E`, `WorkCapacity`, `BatManufacturer/BatModel/BatSerialNo/BatVersionFW`
+- Added AC values: `InvIn_P`, `InvOut_P`, `ResidualCDc_I`
+- Added statistics: `EnergyDischarge`, `EnergyChargeInvIn`, `EnergyPv1/2/3` (Day/Month/Year/Total) and `EnergyHomeOwnTotal`
+- Added service channels `scb.system`, `scb.update` and `scb.event`
+- Added human readable inverter state `devices.local.inverter.StateText` (and `states` mapping on `inverter.State`)
+- Added `dump-api.js` helper script to dump all available modules, processdata and settings of the inverter API
 
 ### 2.3.1
 - Added further option to control battery management [PastCoder]
